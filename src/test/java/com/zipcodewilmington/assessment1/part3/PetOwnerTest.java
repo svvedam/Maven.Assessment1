@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -84,7 +85,6 @@ public class PetOwnerTest {
         Assert.assertTrue(outcome);
         Assert.assertFalse(poOwnsAnotherPet);
     }
-
 
     @Test
     public void getYoungestPetAgeTest() {

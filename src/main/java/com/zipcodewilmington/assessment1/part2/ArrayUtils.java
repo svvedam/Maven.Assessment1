@@ -1,5 +1,7 @@
 package com.zipcodewilmington.assessment1.part2;
 
+import java.util.*;
+
 /**
  * Created by leon on 2/16/18.
  */
@@ -11,7 +13,13 @@ public class ArrayUtils {
      * Given an array of objects, named `objectArray`, and an object `objectToCount`, return the number of times the `objectToCount` appears in the `objectArray`
      */
     public static Integer getNumberOfOccurrences(Object[] objectArray, Object objectToCount) {
-        return null;
+        Integer count = 0;
+        for (Object obj : objectArray) {
+            if (obj == objectToCount) {
+                count++;
+            }
+        }
+        return count;
     }
 
     /**
@@ -21,7 +29,14 @@ public class ArrayUtils {
      * Given an array of objects, name `objectArray`, and an object `objectToRemove`, return an array of objects with identical contents excluding `objectToRemove`
      */
     public static Object[] removeValue(Object[] objectArray, Object objectToRemove) {
-        return null;
+        List<Integer> myNewArrayList = new ArrayList<Integer>();
+        for (Object obj : objectArray) {
+            if (obj != objectToRemove) {
+                myNewArrayList.add((Integer) obj);
+            }
+        }
+        Integer[] returnArray = myNewArrayList.toArray(new Integer[myNewArrayList.size()]);
+        return returnArray;
     }
 
     /**
@@ -30,7 +45,25 @@ public class ArrayUtils {
      * given an array of objects, named `objectArray` return the most frequently occuring object in the array
      */
     public static Object getMostCommon(Object[] objectArray) {
-        return null;
+        Integer[] integerArray1 = Arrays.copyOf(objectArray, objectArray.length, Integer[].class);
+        int count = 1, tempCount;
+        int popular = integerArray1[0];
+        int temp = 0;
+        for(int i =0; i<(integerArray1.length-1); i++){
+            temp = integerArray1[i];
+            tempCount = 0;
+            for(int j = 1; j< integerArray1.length;j++){
+                if(temp == integerArray1[j]){
+                    tempCount++;
+                }
+                if(tempCount>count){
+                    popular = temp;
+                    count = tempCount;
+                }
+
+            }
+        }
+        return popular;
     }
 
 
@@ -40,7 +73,33 @@ public class ArrayUtils {
      * given an array of objects, named `objectArray` return the least frequently occuring object in the array
      */
     public static Object getLeastCommon(Object[] objectArray) {
-        return null;
+        Integer[] myArray = Arrays.copyOf(objectArray, objectArray.length, Integer[].class);
+        Map<Integer, Integer> count = new HashMap<Integer, Integer>();
+        for(int i = 0; i < myArray.length; i++)
+        {
+            int key = myArray[i];
+            if(count.containsKey(key))
+            {
+                int freq = count.get(key);
+                freq++;
+                count.put(key,freq);
+            }
+            else
+                count.put(key,1);
+        }
+        //finding min frequency
+        int min_count = myArray.length+1, res = -1;
+        for(Map.Entry<Integer,Integer> val : count.entrySet())
+        {
+            if (min_count >= val.getValue())
+            {
+                res = val.getKey();
+                min_count = val.getValue();
+            }
+        }
+
+        return res;
+
     }
 
     /**
@@ -50,6 +109,12 @@ public class ArrayUtils {
      * given two arrays `objectArray` and `objectArrayToAdd`, return an array containing all elements in `objectArray` and `objectArrayToAdd`
      */
     public static Object[] mergeArrays(Object[] objectArray, Object[] objectArrayToAdd) {
-        return null;
+        Integer[] integerArray1 = Arrays.copyOf(objectArray, objectArray.length, Integer[].class);
+        Integer[] integerArray2 = Arrays.copyOf(objectArrayToAdd, objectArrayToAdd.length, Integer[].class);
+        List<Integer> myCombinedList = new ArrayList(Arrays.asList(integerArray1));
+        myCombinedList.addAll(Arrays.asList(integerArray2));
+
+        Integer[] returnArray = myCombinedList.toArray(new Integer[myCombinedList.size()]);
+        return returnArray;
     }
 }
