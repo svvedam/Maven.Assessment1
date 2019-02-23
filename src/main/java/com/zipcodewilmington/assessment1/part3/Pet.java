@@ -10,12 +10,13 @@ public abstract class Pet implements Animal {
      */
     String name;
     Integer age;
-    PetOwner petOwner = null;
-    public Pet() {
-        this.petOwner= new PetOwner();
+    protected PetOwner petOwner;
+    Pet (){
+
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 

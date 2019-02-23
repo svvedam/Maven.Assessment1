@@ -1,5 +1,6 @@
 package com.zipcodewilmington.assessment1.part3;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -7,38 +8,55 @@ import java.util.*;
  */
 public class PetOwner {
 
-    List<Pet> pets = new ArrayList<Pet>();
+    List<Pet> petList;
     String petOwnerName;
-    /**
-     * @param name name of the owner of the Pet
-     * @param pets array of Pet object
-     */
+
     public PetOwner(){
-        this.petOwnerName = null;
-        this.pets = null;
+        this.petOwnerName = "Pet Owner";
+        this.petList = new ArrayList<>();
     }
     public PetOwner(String name, Pet... pets) {
         this.petOwnerName = name;
-        this.pets= Arrays.asList(pets);
+        if(pets == null){
+            this.petList = new ArrayList<>();
+            Pet p = new Dog();
+            pets= new Pet[1];
+            pets[0]= p;
+        }
+        else{
+            this.petList = new ArrayList<>(Arrays.asList(pets));
+        }
+        for(int i =0;i<pets.length;i++){
+            pets[i].setOwner(this);
+        }
     }
     public PetOwner(String name, Dog dog, Cat cat){
         this.petOwnerName = name;
-        pets.add(dog);
-        pets.add(cat);
+        petList.add(dog);
+        petList.add(cat);
     }
 
     /**
      * @param pet pet to be added to the composite collection of Pets
      */
     public void addPet(Pet pet) {
-        pets.add(pet);
+
+
+        petList.add(pet);
     }
 
     /**
      * @param pet pet to be removed from the composite collection Pets
      */
     public void removePet(Pet pet) {
-        pets.remove(pet);
+        if(petList.contains(pet)){
+            petList.remove(pet);
+        }
+        else if(petList == null) {
+            petList.add(pet);
+            petList.remove(pet);
+        }
+
     }
 
     /**
@@ -46,10 +64,12 @@ public class PetOwner {
      * @return true if I own this pet
      */
     public Boolean isOwnerOf(Pet pet) {
-        /*if()
-        return true;
-        else*/
-        return true;
+        Boolean flag = false;
+        if(petList.contains(pet))
+        {
+            flag = true;
+        }
+        return flag;
     }
     public static Comparator<Pet>petAge = new Comparator<Pet>(){
         public int compare(Pet p1, Pet p2){
@@ -66,16 +86,16 @@ public class PetOwner {
      */
     public Integer getYoungetPetAge() {
 
-        Collections.sort(pets,petAge);
-        return pets.get(0).age;
+        Collections.sort(petList,petAge);
+        return petList.get(0).age;
     }
 
     /**
      * @return the age of the Pet object whose age field is the highest amongst all Pets in this class
      */
     public Integer getOldestPetAge() {
-        Collections.sort(pets,petAge);
-        return pets.get(pets.size()-1).age;
+        Collections.sort(petList,petAge);
+        return petList.get(petList.size()-1).age;
     }
 
 
@@ -84,10 +104,10 @@ public class PetOwner {
      */
     public Float getAveragePetAge() {
         float sum=0;
-        for(Pet p:pets){
+        for(Pet p:petList){
            sum += p.getAge();
         }
-        float average = sum/pets.size();
+        float average = sum/petList.size();
         return average;
     }
 
@@ -95,7 +115,7 @@ public class PetOwner {
      * @return the number of Pet objects stored in this class
      */
     public Integer getNumberOfPets() {
-        return pets.size();
+        return petList.size();
     }
 
     /**
@@ -109,7 +129,15 @@ public class PetOwner {
      * @return array representation of animals owned by this PetOwner
      */
     public Pet[] getPets() {
-        Pet [] returnArray = pets.toArray(new Pet[pets.size()]);
+        Pet[] returnArray;
+        if(petList.size()==0){
+            returnArray = new Pet[1];
+            Pet p = null;
+            returnArray[0] = p;
+        }
+        else {
+            returnArray = petList.toArray(new Pet[petList.size()]);
+        }
         return returnArray;
     }
 }

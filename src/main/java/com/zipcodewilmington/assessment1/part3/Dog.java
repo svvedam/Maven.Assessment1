@@ -37,6 +37,7 @@ public class Dog extends Pet {
      * name is DogName
      * age is 0
      */
+
     public Dog() {
         this.age = 0;
         this.name = "Dog name";
